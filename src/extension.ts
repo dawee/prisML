@@ -1,6 +1,6 @@
 import { spawn } from "child_process";
 import { exists, stat, readdir, readFile, Stats } from "fs";
-import { extname, resolve as resolvePath } from "path";
+import { basename, resolve as resolvePath } from "path";
 import * as vscode from "vscode";
 import { promisify } from "util";
 import { sync as which } from "which";
@@ -22,7 +22,7 @@ const stringifySyntax = (syntax: Syntax) => {
 const refmtPath = which("bsrefmt");
 
 const reformat = (
-  input: Uint8Array,
+  path: string,
   parse: Syntax,
   print: Syntax
 ): Promise<Uint8Array> =>
@@ -31,7 +31,8 @@ const reformat = (
 
     const refmt = spawn(refmtPath, [
       `--parse=${stringifySyntax(parse)}`,
-      `--print=${stringifySyntax(print)}`
+      `--print=${stringifySyntax(print)}`,
+      path
     ]);
 
     refmt.stdout.on("data", data => {
@@ -41,9 +42,6 @@ const reformat = (
     refmt.on("close", _code => {
       resolve(stdoutBuffer);
     });
-
-    refmt.stdin.write(input);
-    refmt.stdin.end();
   });
 
 const pfs = {
@@ -194,10 +192,11 @@ export class PrisML implements vscode.FileSystemProvider {
 
   async readFile(uri: vscode.Uri): Promise<Uint8Array> {
     const realPath = getRealName(this._prism, uri.path);
-    const data = await pfs.readFile(realPath);
     const parseSyntax = getParseSyntax(this._prism);
 
-    return reformat(data, parseSyntax, this._prism);
+    return realPath !== uri.path
+      ? reformat(realPath, parseSyntax, this._prism)
+      : pfs.readFile(realPath);
   }
 
   writeFile(
@@ -250,7 +249,7 @@ function registerOpenCommand(
     if (Array.isArray(uris) && uris.length === 1) {
       vscode.workspace.updateWorkspaceFolders(0, 0, {
         uri: absoluteURI(prism, uris[0].path),
-        name: "PrisML - Sample"
+        name: `${basename(uris[0].path)} - PrisML`
       });
     }
   });
