@@ -16,7 +16,7 @@ PrisML is just a layer over **refmt**, developped by the authors of [facebook/re
 
 ## Development
 
-This project is a work in progress. Right now it's roughly doing a readonly job.
+This project is a work in progress. Reading and writing using Reason syntax seems to work fine though.
 To take a look at the extension:
 
 - Clone this project
