@@ -1,5 +1,5 @@
 import { spawn } from "child_process";
-import { exists, stat, readdir, readFile, Stats } from "fs";
+import { exists, stat, readdir, readFile, Stats, writeFile } from "fs";
 import { basename, resolve as resolvePath } from "path";
 import * as vscode from "vscode";
 import { promisify } from "util";
@@ -9,6 +9,14 @@ enum Syntax {
   OCaml = "ml",
   ReasonML = "re"
 }
+
+const pfs = {
+  exists: promisify(exists),
+  stat: promisify(stat),
+  readdir: promisify(readdir),
+  readFile: promisify(readFile),
+  writeFile: promisify(writeFile)
+};
 
 const stringifySyntax = (syntax: Syntax) => {
   switch (syntax) {
@@ -22,17 +30,22 @@ const stringifySyntax = (syntax: Syntax) => {
 const refmtPath = which("bsrefmt");
 
 const reformat = (
+  input: Uint8Array,
   path: string,
   parse: Syntax,
   print: Syntax
 ): Promise<Uint8Array> =>
   new Promise((resolve, reject) => {
     let stdoutBuffer = Buffer.from([]);
+    const args = [
+      `--parse=${stringifySyntax(parse)}`,
+      `--print=${stringifySyntax(print)}`
+    ];
 
     const refmt = spawn(refmtPath, [
       `--parse=${stringifySyntax(parse)}`,
       `--print=${stringifySyntax(print)}`,
-      path
+      `--interface=${isInterface(path) ? "true" : "false"}`
     ]);
 
     refmt.stdout.on("data", data => {
@@ -42,14 +55,10 @@ const reformat = (
     refmt.on("close", _code => {
       resolve(stdoutBuffer);
     });
-  });
 
-const pfs = {
-  exists: promisify(exists),
-  stat: promisify(stat),
-  readdir: promisify(readdir),
-  readFile: promisify(readFile)
-};
+    refmt.stdin.write(input);
+    refmt.stdin.end();
+  });
 
 const getURIScheme = (prism: Syntax) => "prism-" + prism.valueOf();
 
@@ -70,7 +79,7 @@ const absoluteURI = (
   );
 };
 
-const getParseSyntax = (prism: Syntax) => {
+const getOppositeSyntax = (prism: Syntax) => {
   switch (prism) {
     case Syntax.OCaml:
       return Syntax.ReasonML;
@@ -106,7 +115,7 @@ const getVirtualName = (prism: Syntax, name: string) => {
   if (match === null) {
     return name;
   } else {
-    const parseSyntax = getParseSyntax(prism);
+    const parseSyntax = getOppositeSyntax(prism);
     const baseVirtualName =
       match[1] + "_" + parseSyntax.valueOf() + "." + prism.valueOf();
 
@@ -121,7 +130,7 @@ const getRealName = (prism: Syntax, name: string) => {
   if (match === null) {
     return name;
   } else {
-    const parseSyntax = getParseSyntax(prism);
+    const parseSyntax = getOppositeSyntax(prism);
     const baseVirtualName = match[1] + "." + parseSyntax.valueOf();
 
     return isInterface(name) ? baseVirtualName + "i" : baseVirtualName;
@@ -192,26 +201,36 @@ export class PrisML implements vscode.FileSystemProvider {
 
   async readFile(uri: vscode.Uri): Promise<Uint8Array> {
     const realPath = getRealName(this._prism, uri.path);
-    const parseSyntax = getParseSyntax(this._prism);
+    const parseSyntax = getOppositeSyntax(this._prism);
+    const data = await pfs.readFile(realPath);
 
     return realPath !== uri.path
-      ? reformat(realPath, parseSyntax, this._prism)
-      : pfs.readFile(realPath);
+      ? reformat(data, uri.path, parseSyntax, this._prism)
+      : data;
   }
 
-  writeFile(
+  async writeFile(
     uri: vscode.Uri,
     content: Uint8Array,
     options: { create: boolean; overwrite: boolean }
-  ): void | Thenable<void> {
-    throw new Error("Method not implemented.");
+  ): Promise<void> {
+    const realPath = getRealName(this._prism, uri.path);
+    const printSyntax = getOppositeSyntax(this._prism);
+    const data =
+      realPath !== uri.path
+        ? await reformat(content, uri.path, this._prism, printSyntax)
+        : content;
+
+    return pfs.writeFile(realPath, data);
   }
+
   delete(
     uri: vscode.Uri,
     options: { recursive: boolean }
   ): void | Thenable<void> {
     throw new Error("Method not implemented.");
   }
+
   rename(
     oldUri: vscode.Uri,
     newUri: vscode.Uri,
