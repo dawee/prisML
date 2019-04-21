@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { spawn, ChildProcess } from "child_process";
 import { exists, stat, readdir, readFile, Stats, writeFile } from "fs";
 import { basename, resolve as resolvePath } from "path";
 import * as vscode from "vscode";
@@ -27,46 +27,81 @@ const stringifySyntax = (syntax: Syntax) => {
   }
 };
 
-const refmtPath = which("bsrefmt");
+const refmtPath = resolvePath(__dirname, "../refmt.exe");
+const ocamlformatPath = resolvePath(__dirname, "../ocamlformat.exe");
 
-const reformat = (
+function promisifyChildProcess(
+  input: Uint8Array,
+  childProcess: ChildProcess
+): Promise<Uint8Array> {
+  return new Promise((resolve, reject) => {
+    let stdoutBuffer = Buffer.from([]);
+
+    childProcess.stdout.on("data", data => {
+      stdoutBuffer = Buffer.concat([stdoutBuffer, data]);
+    });
+
+    childProcess.on("close", _code => {
+      resolve(stdoutBuffer);
+    });
+
+    childProcess.stdin.write(input);
+    childProcess.stdin.end();
+  });
+}
+
+function refmt(
   input: Uint8Array,
   path: string,
   parse: Syntax,
   print: Syntax
-): Promise<Uint8Array> =>
-  new Promise((resolve, reject) => {
-    let stdoutBuffer = Buffer.from([]);
-    const args = [
-      `--parse=${stringifySyntax(parse)}`,
-      `--print=${stringifySyntax(print)}`
-    ];
+): Promise<Uint8Array> {
+  const childProcess = spawn(refmtPath, [
+    `--parse=${stringifySyntax(parse)}`,
+    `--print=${stringifySyntax(print)}`,
+    `--interface=${isInterface(path) ? "true" : "false"}`
+  ]);
 
-    const refmt = spawn(refmtPath, [
-      `--parse=${stringifySyntax(parse)}`,
-      `--print=${stringifySyntax(print)}`,
-      `--interface=${isInterface(path) ? "true" : "false"}`
-    ]);
+  return promisifyChildProcess(input, childProcess);
+}
 
-    refmt.stdout.on("data", data => {
-      stdoutBuffer = Buffer.concat([stdoutBuffer, data]);
-    });
+function ocamlformat(input: Uint8Array, path: string): Promise<Uint8Array> {
+  const childProcess = spawn(ocamlformatPath, [
+    `-`,
+    `--name=${basename(path)}`
+  ]);
 
-    refmt.on("close", _code => {
-      resolve(stdoutBuffer);
-    });
+  return promisifyChildProcess(input, childProcess);
+}
 
-    refmt.stdin.write(input);
-    refmt.stdin.end();
-  });
+function reformat(
+  input: Uint8Array,
+  path: string,
+  parse: Syntax,
+  print: Syntax
+): Promise<Uint8Array> {
+  if (parse === Syntax.ReasonML && print === Syntax.OCaml) {
+    return refmt(input, path, parse, print).then(rawOCaml =>
+      ocamlformat(rawOCaml, path)
+    );
+  } else if (parse === Syntax.OCaml && print === Syntax.ReasonML) {
+    return ocamlformat(input, path).then(cleanOCaml =>
+      refmt(cleanOCaml, path, parse, print)
+    );
+  } else {
+    return refmt(input, path, parse, print);
+  }
+}
 
-const getURIScheme = (prism: Syntax) => "prism-" + prism.valueOf();
+function getURIScheme(prism: Syntax) {
+  return "prism-" + prism.valueOf();
+}
 
-const absoluteURI = (
+function absoluteURI(
   prism: Syntax,
   parent: string,
   node: string | null = null
-) => {
+) {
   const scheme = getURIScheme(prism);
 
   const path = (node !== null ? resolvePath(parent, node) : parent).replace(
@@ -77,38 +112,40 @@ const absoluteURI = (
   return vscode.Uri.parse(
     path.startsWith("/") ? `${scheme}:/${path}` : `${scheme}://${path}`
   );
-};
+}
 
-const getOppositeSyntax = (prism: Syntax) => {
+function getOppositeSyntax(prism: Syntax) {
   switch (prism) {
     case Syntax.OCaml:
       return Syntax.ReasonML;
     case Syntax.ReasonML:
       return Syntax.OCaml;
   }
-};
+}
 
-const getRealNamePattern = (prism: Syntax) => {
+function getRealNamePattern(prism: Syntax) {
   switch (prism) {
     case Syntax.OCaml:
       return /^(.*)\.rei?$/;
     case Syntax.ReasonML:
       return /^(.*)\.mli?$/;
   }
-};
+}
 
-const getVirtualNamePattern = (prism: Syntax) => {
+function getVirtualNamePattern(prism: Syntax) {
   switch (prism) {
     case Syntax.OCaml:
       return /^(.*)_re\.mli?$/;
     case Syntax.ReasonML:
       return /^(.*)_ml\.rei?$/;
   }
-};
+}
 
-const isInterface = (name: string) => name.match(/^.*\.(rei|mli)$/) !== null;
+function isInterface(name: string) {
+  return name.match(/^.*\.(rei|mli)$/) !== null;
+}
 
-const getVirtualName = (prism: Syntax, name: string) => {
+function getVirtualName(prism: Syntax, name: string) {
   const pattern = getRealNamePattern(prism);
   const match = name.match(pattern);
 
@@ -121,9 +158,9 @@ const getVirtualName = (prism: Syntax, name: string) => {
 
     return isInterface(name) ? baseVirtualName + "i" : baseVirtualName;
   }
-};
+}
 
-const getRealName = (prism: Syntax, name: string) => {
+function getRealName(prism: Syntax, name: string) {
   const pattern = getVirtualNamePattern(prism);
   const match = name.match(pattern);
 
@@ -135,7 +172,7 @@ const getRealName = (prism: Syntax, name: string) => {
 
     return isInterface(name) ? baseVirtualName + "i" : baseVirtualName;
   }
-};
+}
 
 export class PrisML implements vscode.FileSystemProvider {
   private _emitter = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
