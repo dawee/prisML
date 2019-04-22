@@ -1,0 +1,9 @@
+{
+  "source": "./ocamlformat.opam",
+  "override": {
+    "buildsInSource": "unsafe",
+    "dependencies": {
+      "@opam/base": "v0.11.1"
+    }
+  }
+}
