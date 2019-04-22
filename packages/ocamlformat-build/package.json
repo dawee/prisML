@@ -1,9 +1,7 @@
 {
-  "name": "ocamlformat-build",
+  "name": "@dawee/ocamlformat-build",
+  "private": true,
   "version": "0.9.0",
-  "main": "index.js",
   "license": "MIT",
-  "scripts": {
-    "build": "node build.js"
-  }
+  "main": "build.js"
 }

@@ -63,7 +63,7 @@ function exportEXE(outputEXEPath) {
   return pfs.copyFile(builtEXEPath, outputEXEPath);
 }
 
-async function run(outputEXEPath) {
+async function runScript(outputEXEPath) {
   await clone();
   await checkout();
   await patchPackage();
@@ -73,5 +73,7 @@ async function run(outputEXEPath) {
 }
 
 if (require.main === module) {
-  run(process.argv[2]);
+  runScript(process.argv[2]);
 }
+
+module.exports = runScript;
