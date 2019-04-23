@@ -1,0 +1,19 @@
+{
+  "name": "@dawee/ocamlformat-prebuilt-linux",
+  "version": "0.9.0",
+  "description": "Prebuilt ocamlformat for linux",
+  "os": [
+    "linux"
+  ],
+  "bin": {
+    "ocamlformat": "ocamlformat.exe"
+  },
+  "author": "David Corticchiato",
+  "license": "MIT",
+  "files": [
+    "ocamlformat.exe"
+  ],
+  "scripts": {
+    "prepare": "node prepare.js"
+  }
+}
