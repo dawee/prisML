@@ -1,6 +1,6 @@
 {
   "name": "@dawee/ocamlformat-prebuilt-windows",
-  "version": "0.9.0",
+  "version": "0.9.0-2",
   "description": "Prebuilt ocamlformat for windows",
   "author": "David Corticchiato",
   "os": [
