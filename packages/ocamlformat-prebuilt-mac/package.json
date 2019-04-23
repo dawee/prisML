@@ -1,7 +1,13 @@
 {
-  "name": "@dawee/ocamlformat-prebuilt-windows",
+  "name": "@dawee/ocamlformat-prebuilt-mac",
   "version": "0.9.0",
-  "description": "Prebuilt ocamlformat for windows",
+  "description": "Prebuilt ocamlformat for mac",
+  "os": [
+    "darwin"
+  ],
+  "bin": {
+    "ocamlformat": "ocamlformat.exe"
+  },
   "author": "David Corticchiato",
   "license": "MIT",
   "files": [
