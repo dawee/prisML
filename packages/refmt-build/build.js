@@ -1,9 +1,11 @@
 const fs = require("fs");
+const glob = require("glob");
 const path = require("path");
 const { spawn } = require("child_process");
 const util = require("util");
 const { sync: which } = require("which");
 
+const pglob = util.promisify(glob);
 const pfs = {
   copyFile: util.promisify(fs.copyFile),
   exists: util.promisify(fs.exists)
@@ -11,11 +13,6 @@ const pfs = {
 
 const esyPath = which("esy");
 const clonePath = path.resolve(__dirname, `_build/reason`);
-
-const builtEXEPath = path.resolve(
-  clonePath,
-  "_esy/default/store/b/reason_dev-5d934aa6/default/src/refmt/refmt_impl.exe"
-);
 
 function runCMD(cmd, params, options) {
   return new Promise(done => {
@@ -54,7 +51,14 @@ function build(command) {
   return runCMD(esyPath, ["build", "--release"], { cwd: clonePath });
 }
 
-function exportEXE(outputEXEPath) {
+async function exportEXE(outputEXEPath) {
+  const builtEXEWildcard = path.resolve(
+    clonePath,
+    "_esy/default/store/b/reason_dev-*/default/src/refmt/refmt_impl.exe"
+  );
+
+  const [builtEXEPath] = await pglob(builtEXEWildcard, null);
+
   return pfs.copyFile(builtEXEPath, outputEXEPath);
 }
 
