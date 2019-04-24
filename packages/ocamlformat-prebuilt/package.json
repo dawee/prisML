@@ -1,0 +1,11 @@
+{
+  "name": "ocamlformat-prebuilt",
+  "version": "0.9.0",
+  "main": "index.js",
+  "license": "MIT",
+  "optionalDependencies": {
+    "@dawee/ocamlformat-prebuilt-linux": "0.9.0",
+    "@dawee/ocamlformat-prebuilt-mac": "0.9.0",
+    "@dawee/ocamlformat-prebuilt-windows": "0.9.0-2"
+  }
+}
