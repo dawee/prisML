@@ -1,6 +1,6 @@
 {
   "name": "@dawee/refmt-prebuilt-linux",
-  "version": "3.4.0",
+  "version": "3.4.0-1",
   "description": "Prebuilt refmt for linux",
   "author": "David Corticchiato",
   "os": [
