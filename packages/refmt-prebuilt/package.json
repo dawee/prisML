@@ -1,0 +1,14 @@
+{
+  "name": "@dawee/refmt-prebuilt",
+  "version": "0.9.0-1",
+  "main": "index.js",
+  "license": "MIT",
+  "bin": {
+    "refmt": "node_modules/.bin/refmt"
+  },
+  "optionalDependencies": {
+    "@dawee/refmt-prebuilt-linux": "3.4.0-1",
+    "@dawee/refmt-prebuilt-mac": "3.4.0",
+    "@dawee/refmt-prebuilt-windows": "3.4.0"
+  }
+}
