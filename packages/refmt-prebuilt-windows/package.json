@@ -1,0 +1,19 @@
+{
+  "name": "@dawee/refmt-prebuilt-windows",
+  "version": "3.4.0",
+  "description": "Prebuilt refmt for windows",
+  "author": "David Corticchiato",
+  "os": [
+    "win32"
+  ],
+  "bin": {
+    "refmt": "refmt.exe"
+  },
+  "license": "MIT",
+  "files": [
+    "refmt.exe"
+  ],
+  "scripts": {
+    "prepare": "node prepare.js"
+  }
+}
