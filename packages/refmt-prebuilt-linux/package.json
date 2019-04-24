@@ -1,0 +1,19 @@
+{
+  "name": "@dawee/refmt-prebuilt-linux",
+  "version": "3.4.0",
+  "description": "Prebuilt refmt for linux",
+  "author": "David Corticchiato",
+  "os": [
+    "linux"
+  ],
+  "bin": {
+    "refmt": "refmt.exe"
+  },
+  "license": "MIT",
+  "files": [
+    "refmt.exe"
+  ],
+  "scripts": {
+    "prepare": "node prepare.js"
+  }
+}
