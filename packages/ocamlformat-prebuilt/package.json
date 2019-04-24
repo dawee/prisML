@@ -1,5 +1,5 @@
 {
-  "name": "ocamlformat-prebuilt",
+  "name": "@dawee/ocamlformat-prebuilt",
   "version": "0.9.0",
   "main": "index.js",
   "license": "MIT",
