@@ -1,0 +1,19 @@
+{
+  "name": "@dawee/refmt-prebuilt-mac",
+  "version": "3.4.0",
+  "description": "Prebuilt refmt for mac",
+  "author": "David Corticchiato",
+  "os": [
+    "darwin"
+  ],
+  "bin": {
+    "refmt": "refmt.exe"
+  },
+  "license": "MIT",
+  "files": [
+    "refmt.exe"
+  ],
+  "scripts": {
+    "prepare": "node prepare.js"
+  }
+}
