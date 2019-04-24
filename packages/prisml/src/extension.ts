@@ -28,7 +28,7 @@ const stringifySyntax = (syntax: Syntax) => {
 };
 
 const refmtPath = resolvePath(__dirname, "../refmt.exe");
-const ocamlformatPath = resolvePath(__dirname, "../ocamlformat.exe");
+const ocamlformatPath = which("ocamlformat");
 
 function promisifyChildProcess(
   input: Uint8Array,

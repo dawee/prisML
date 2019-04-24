@@ -2,6 +2,30 @@
 # yarn lockfile v1
 
 
+"@dawee/ocamlformat-prebuilt-linux@0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-linux/-/ocamlformat-prebuilt-linux-0.9.0.tgz#ec7476a7496fbc0c271a97bf53a4675292e24982"
+  integrity sha512-KlPW1SRiW4vJIc1A693IerpqNtMY4rnigLr2R0QmmswAiLrGw5IuXgIv6sF3P2HfyASrYwnAvedIyDxCF5zogA==
+
+"@dawee/ocamlformat-prebuilt-mac@0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-mac/-/ocamlformat-prebuilt-mac-0.9.0.tgz#edfe7254931de935ed43f5555a4167f26179dbcf"
+  integrity sha512-0ZYlnb0kV8pPnGD7UYKJOjkyZbl4UQ78Yimr+f9xRaJiDHxN72sGS1k7LrynB15uhh2fh1cGqtl+hNEiMA8IGQ==
+
+"@dawee/ocamlformat-prebuilt-windows@0.9.0-2":
+  version "0.9.0-2"
+  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-windows/-/ocamlformat-prebuilt-windows-0.9.0-2.tgz#b075eda27a7d53c78e65f3274cd5a0e9cd4b4b9c"
+  integrity sha512-TC9/Lf4YzYh0QpRmgD+Ltpwh1TeHdxGxg8Sf8nt8Bzpmj+t+r8KXK7beXHfmeVzt2gqzMybYMuSqVFUurRSkyg==
+
+"@dawee/ocamlformat-prebuilt@^0.9.0-1":
+  version "0.9.0-1"
+  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt/-/ocamlformat-prebuilt-0.9.0-1.tgz#4dcea90dee8aac553478860900506299346fc5eb"
+  integrity sha512-i0s7bFragz37wmXvm4PeFEZZAk7wdSuwe/ajBmQexHDamD/IAOkIGJgAayUutngTAUH3OFV1ENUbyu72Jk6xQQ==
+  optionalDependencies:
+    "@dawee/ocamlformat-prebuilt-linux" "0.9.0"
+    "@dawee/ocamlformat-prebuilt-mac" "0.9.0"
+    "@dawee/ocamlformat-prebuilt-windows" "0.9.0-2"
+
 "@types/mocha@^2.2.42":
   version "2.2.48"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.48.tgz#3523b126a0b049482e1c3c11877460f76622ffab"
