@@ -3,7 +3,8 @@ import { exists, stat, readdir, readFile, Stats, writeFile } from "fs";
 import { basename, resolve as resolvePath } from "path";
 import * as vscode from "vscode";
 import { promisify } from "util";
-import { sync as which } from "which";
+import { binPath as refmtPath } from "@dawee/refmt-prebuilt";
+import { binPath as ocamlformatPath } from "@dawee/ocamlformat-prebuilt";
 
 enum Syntax {
   OCaml = "ml",
@@ -27,8 +28,8 @@ const stringifySyntax = (syntax: Syntax) => {
   }
 };
 
-const refmtPath = resolvePath(__dirname, "../refmt.exe");
-const ocamlformatPath = which("ocamlformat");
+console.log(refmtPath);
+console.log(ocamlformatPath);
 
 function promisifyChildProcess(
   input: Uint8Array,
@@ -36,13 +37,22 @@ function promisifyChildProcess(
 ): Promise<Uint8Array> {
   return new Promise((resolve, reject) => {
     let stdoutBuffer = Buffer.from([]);
+    let stderrBuffer = Buffer.from([]);
 
     childProcess.stdout.on("data", data => {
       stdoutBuffer = Buffer.concat([stdoutBuffer, data]);
     });
 
-    childProcess.on("close", _code => {
-      resolve(stdoutBuffer);
+    childProcess.stderr.on("data", data => {
+      stderrBuffer = Buffer.concat([stderrBuffer, data]);
+    });
+
+    childProcess.on("close", code => {
+      if (code === 0) {
+        resolve(stdoutBuffer);
+      } else {
+        reject(new Error(stderrBuffer.toString()));
+      }
     });
 
     childProcess.stdin.write(input);

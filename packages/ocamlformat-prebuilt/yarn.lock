@@ -12,7 +12,7 @@
   resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-mac/-/ocamlformat-prebuilt-mac-0.9.0.tgz#edfe7254931de935ed43f5555a4167f26179dbcf"
   integrity sha512-0ZYlnb0kV8pPnGD7UYKJOjkyZbl4UQ78Yimr+f9xRaJiDHxN72sGS1k7LrynB15uhh2fh1cGqtl+hNEiMA8IGQ==
 
-"@dawee/ocamlformat-prebuilt-windows@0.9.0-2":
-  version "0.9.0-2"
-  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-windows/-/ocamlformat-prebuilt-windows-0.9.0-2.tgz#b075eda27a7d53c78e65f3274cd5a0e9cd4b4b9c"
-  integrity sha512-TC9/Lf4YzYh0QpRmgD+Ltpwh1TeHdxGxg8Sf8nt8Bzpmj+t+r8KXK7beXHfmeVzt2gqzMybYMuSqVFUurRSkyg==
+"@dawee/ocamlformat-prebuilt-windows@0.9.0-3":
+  version "0.9.0-3"
+  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-windows/-/ocamlformat-prebuilt-windows-0.9.0-3.tgz#c2b2524f57f875f390f6ff271810da045e3b10a9"
+  integrity sha512-GnZ1GKFH2EpE8Wsy+eQonPQI/UjpKrPGosbl4OLXqCriAMS88HqVty1Ph7nGDoYWGdRu+g0GNCXGw4h0wFE2gQ==

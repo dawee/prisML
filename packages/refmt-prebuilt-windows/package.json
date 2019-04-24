@@ -1,8 +1,9 @@
 {
   "name": "@dawee/refmt-prebuilt-windows",
-  "version": "3.4.0",
+  "version": "3.4.0-1",
   "description": "Prebuilt refmt for windows",
   "author": "David Corticchiato",
+  "main": "index.js",
   "os": [
     "win32"
   ],
@@ -11,6 +12,7 @@
   },
   "license": "MIT",
   "files": [
+    "index.js",
     "refmt.exe"
   ],
   "scripts": {

@@ -12,19 +12,43 @@
   resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-mac/-/ocamlformat-prebuilt-mac-0.9.0.tgz#edfe7254931de935ed43f5555a4167f26179dbcf"
   integrity sha512-0ZYlnb0kV8pPnGD7UYKJOjkyZbl4UQ78Yimr+f9xRaJiDHxN72sGS1k7LrynB15uhh2fh1cGqtl+hNEiMA8IGQ==
 
-"@dawee/ocamlformat-prebuilt-windows@0.9.0-2":
-  version "0.9.0-2"
-  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-windows/-/ocamlformat-prebuilt-windows-0.9.0-2.tgz#b075eda27a7d53c78e65f3274cd5a0e9cd4b4b9c"
-  integrity sha512-TC9/Lf4YzYh0QpRmgD+Ltpwh1TeHdxGxg8Sf8nt8Bzpmj+t+r8KXK7beXHfmeVzt2gqzMybYMuSqVFUurRSkyg==
+"@dawee/ocamlformat-prebuilt-windows@0.9.0-3":
+  version "0.9.0-3"
+  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt-windows/-/ocamlformat-prebuilt-windows-0.9.0-3.tgz#c2b2524f57f875f390f6ff271810da045e3b10a9"
+  integrity sha512-GnZ1GKFH2EpE8Wsy+eQonPQI/UjpKrPGosbl4OLXqCriAMS88HqVty1Ph7nGDoYWGdRu+g0GNCXGw4h0wFE2gQ==
 
-"@dawee/ocamlformat-prebuilt@^0.9.0-1":
-  version "0.9.0-1"
-  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt/-/ocamlformat-prebuilt-0.9.0-1.tgz#4dcea90dee8aac553478860900506299346fc5eb"
-  integrity sha512-i0s7bFragz37wmXvm4PeFEZZAk7wdSuwe/ajBmQexHDamD/IAOkIGJgAayUutngTAUH3OFV1ENUbyu72Jk6xQQ==
+"@dawee/ocamlformat-prebuilt@0.9.0-3":
+  version "0.9.0-3"
+  resolved "https://registry.yarnpkg.com/@dawee/ocamlformat-prebuilt/-/ocamlformat-prebuilt-0.9.0-3.tgz#17f30b2872a481d29457aa056df9c9b437def28b"
+  integrity sha512-PKbG2A0/X7VglSl1l6SOiacrc4HbhuLdy5cKU6MYPelu7YrFG3XGPufHJI3g9XBdm0d/XkItuIAmrmjlKT4iYg==
   optionalDependencies:
     "@dawee/ocamlformat-prebuilt-linux" "0.9.0"
     "@dawee/ocamlformat-prebuilt-mac" "0.9.0"
-    "@dawee/ocamlformat-prebuilt-windows" "0.9.0-2"
+    "@dawee/ocamlformat-prebuilt-windows" "0.9.0-3"
+
+"@dawee/refmt-prebuilt-linux@3.4.0-1":
+  version "3.4.0-1"
+  resolved "https://registry.yarnpkg.com/@dawee/refmt-prebuilt-linux/-/refmt-prebuilt-linux-3.4.0-1.tgz#0712139c9f3926aba55a2eb8831b207a9aa0f520"
+  integrity sha512-ksLsf31BCKh7BLQyOZ3q2DqAFgq0pRBqpyizZNqAoQOwmAGCaKM4YKpuBqXRHcKhvDXhvyD2ADK8cxW7907hqA==
+
+"@dawee/refmt-prebuilt-mac@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@dawee/refmt-prebuilt-mac/-/refmt-prebuilt-mac-3.4.0.tgz#22ebf10e1a2297aeb08b9e6b28ee1f139431a02e"
+  integrity sha512-a+fqji6Ldl12kqmlANlHCxMg3xn+lXa0sduct5glC6QfVI2N5xSVS3Z9yySykAX49gW3N6eiiwfC8RxbgVcXdw==
+
+"@dawee/refmt-prebuilt-windows@3.4.0-1":
+  version "3.4.0-1"
+  resolved "https://registry.yarnpkg.com/@dawee/refmt-prebuilt-windows/-/refmt-prebuilt-windows-3.4.0-1.tgz#fb1c0c2d6dac576422df5868186c941d54c3a6b2"
+  integrity sha512-gBQOVFZ74JLeG+LgfMqECCSjYPGVAQo4HVslmNHaZxp5XD5zs65oNJjT0rArcsZ3KO5HeoJ97bCuDLz7Jx9v7g==
+
+"@dawee/refmt-prebuilt@0.9.0-2":
+  version "0.9.0-2"
+  resolved "https://registry.yarnpkg.com/@dawee/refmt-prebuilt/-/refmt-prebuilt-0.9.0-2.tgz#4a7455cf8a2b9cc9d46a8ff78f264eb7ea02f3d7"
+  integrity sha512-Zi7fBLkPhA4C/uZyPIuRWUb2T/NOQSyKEvNUBK3PnsVipTSWFUOzQlOATqnyURXYJqU1VQVqIcMAXabBxXjntw==
+  optionalDependencies:
+    "@dawee/refmt-prebuilt-linux" "3.4.0-1"
+    "@dawee/refmt-prebuilt-mac" "3.4.0"
+    "@dawee/refmt-prebuilt-windows" "3.4.0-1"
 
 "@types/mocha@^2.2.42":
   version "2.2.48"
@@ -142,11 +166,6 @@ browser-stdout@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/browser-stdout/-/browser-stdout-1.3.0.tgz#f351d32969d32fa5d7a5567154263d928ae3bd1f"
   integrity sha1-81HTKWnTL6XXpVZxVCY9korjvR8=
-
-bs-platform@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-5.0.2.tgz#f10380a6f9accba0e150015ede343bae15db699b"
-  integrity sha512-lj0uCwhu3tJdUOUp1pX/MG6ar19wbK5kKvs9FMzg0RqloKhtoZ0CgE2CFxNY+i01IhblJeEADGjucvXeO5TgdQ==
 
 buffer-from@^1.0.0:
   version "1.1.1"

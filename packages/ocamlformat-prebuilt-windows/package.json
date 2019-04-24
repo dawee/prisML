@@ -1,8 +1,9 @@
 {
   "name": "@dawee/ocamlformat-prebuilt-windows",
-  "version": "0.9.0-2",
+  "version": "0.9.0-3",
   "description": "Prebuilt ocamlformat for windows",
   "author": "David Corticchiato",
+  "main": "index.js",
   "os": [
     "win32"
   ],
@@ -11,6 +12,7 @@
   },
   "license": "MIT",
   "files": [
+    "index.js",
     "ocamlformat.exe"
   ],
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "@dawee/ocamlformat-prebuilt",
-  "version": "0.9.0-1",
+  "version": "0.9.0-3",
   "main": "index.js",
   "license": "MIT",
   "bin": {
@@ -9,6 +9,6 @@
   "optionalDependencies": {
     "@dawee/ocamlformat-prebuilt-linux": "0.9.0",
     "@dawee/ocamlformat-prebuilt-mac": "0.9.0",
-    "@dawee/ocamlformat-prebuilt-windows": "0.9.0-2"
+    "@dawee/ocamlformat-prebuilt-windows": "0.9.0-3"
   }
 }
