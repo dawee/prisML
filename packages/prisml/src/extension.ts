@@ -28,9 +28,6 @@ const stringifySyntax = (syntax: Syntax) => {
   }
 };
 
-console.log(refmtPath);
-console.log(ocamlformatPath);
-
 function promisifyChildProcess(
   input: Uint8Array,
   childProcess: ChildProcess
